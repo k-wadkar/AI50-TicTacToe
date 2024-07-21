@@ -110,7 +110,16 @@ def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    raise NotImplementedError
+    if winner(board) != None:
+        return True
+    
+    boardFilled = True
+    for x in range(3):
+        for y in range(3):
+            if board[x][y] == EMPTY:
+                boardFilled = False
+
+    return boardFilled
 
 
 def utility(board):
