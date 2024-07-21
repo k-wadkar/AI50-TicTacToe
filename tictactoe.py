@@ -1,5 +1,6 @@
 """
 Tic Tac Toe Player
+Note: This program is ridiculously slow to begin with because I couldn't be bothered to implement alpha-beta pruning. Sorry.
 """
 
 import math
@@ -58,7 +59,7 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    if not(0 <= action[0] <= 2) or not(0 <= action[1] <= 2):
+    if not (0 <= action[0] <= 2) or not (0 <= action[1] <= 2):
         raise NameError("Action out of bounds")
     
     newBoard = deepcopy(board)
@@ -139,39 +140,10 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    # If the board is already terminal, return none
+
     if terminal(board):
         return None
     else:
-        #print("Board non-terminal")
-        
-        # if player(board) == X:
-        #     optTerminalState = -1
-        # else:
-        #     optTerminalState = 1
-
-        # for originalAction in actions(board):
-        #     #print(originalAction)
-            
-        #     recursiveAction = deepcopy(originalAction)
-        #     recursiveBoard = deepcopy(board)
-            
-        #     while not terminal(result(recursiveBoard, recursiveAction)):
-        #         recursiveAction = deepcopy(minimax(result(recursiveBoard,recursiveAction)))
-        #         recursiveBoard = deepcopy(result(recursiveBoard, recursiveAction))
-        #     terminalState = utility(recursiveBoard)
-
-        #     if player(board) == "X":
-        #         if terminalState > optTerminalState:
-        #             optTerminalState = terminalState
-        #             optimalMove = originalAction
-        #     else:
-        #         if terminalState < optTerminalState:
-        #             optTerminalState = terminalState
-        #             optimalMove = originalAction
-
-        # return optimalMove
-
         if player(board) == "X":
             return max(board)[0]
         else:
