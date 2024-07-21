@@ -59,7 +59,7 @@ def result(board, action):
     Returns the board that results from making move (i, j) on the board.
     """
     if not(0 <= action[0] <= 2) or not(0 <= action[1] <= 2):
-        raise NameError("Invalid action on board")
+        raise NameError("Action out of bounds")
     
     newBoard = deepcopy(board)
 
@@ -67,7 +67,7 @@ def result(board, action):
         newBoard[action[0]][action[1]] = player(newBoard)
         return newBoard
     else:
-        raise NameError("Invalid action on board")
+        raise NameError("Attempt to overwrite existing move")
 
 
 def winner(board):
@@ -134,8 +134,83 @@ def utility(board):
     else:
         return 0
 
+
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    raise NotImplementedError
+    # If the board is already terminal, return none
+    if terminal(board):
+        return None
+    else:
+        #print("Board non-terminal")
+        
+        # if player(board) == X:
+        #     optTerminalState = -1
+        # else:
+        #     optTerminalState = 1
+
+        # for originalAction in actions(board):
+        #     #print(originalAction)
+            
+        #     recursiveAction = deepcopy(originalAction)
+        #     recursiveBoard = deepcopy(board)
+            
+        #     while not terminal(result(recursiveBoard, recursiveAction)):
+        #         recursiveAction = deepcopy(minimax(result(recursiveBoard,recursiveAction)))
+        #         recursiveBoard = deepcopy(result(recursiveBoard, recursiveAction))
+        #     terminalState = utility(recursiveBoard)
+
+        #     if player(board) == "X":
+        #         if terminalState > optTerminalState:
+        #             optTerminalState = terminalState
+        #             optimalMove = originalAction
+        #     else:
+        #         if terminalState < optTerminalState:
+        #             optTerminalState = terminalState
+        #             optimalMove = originalAction
+
+        # return optimalMove
+
+        if player(board) == "X":
+            return max(board)[0]
+        else:
+            return min(board)[0]
+    
+
+def max(board):
+    if terminal(board):
+        return None
+    
+    valToMax = -1
+
+    for possibleAction in actions(board):
+        if terminal(result(board, possibleAction)):
+            if utility(result(board, possibleAction)) >= valToMax:
+                valToMax = utility(result(board, possibleAction))
+                optimalAction = possibleAction
+        else:
+            if min(result(board, possibleAction))[1] >= valToMax:
+                valToMax = min(result(board, possibleAction))[1]
+                optimalAction = possibleAction
+
+    return (optimalAction, valToMax)
+
+
+def min(board):
+    if terminal(board):
+        return None
+    
+    valToMin = 1
+
+    for possibleAction in actions(board):
+        if terminal(result(board, possibleAction)):
+            if utility(result(board, possibleAction)) <= valToMin:
+                valToMin = utility(result(board, possibleAction))
+                optimalAction = possibleAction
+        else:
+            if max(result(board, possibleAction))[1] <= valToMin:
+                valToMin = max(result(board, possibleAction))[1]
+                optimalAction = possibleAction
+
+    return (optimalAction, valToMin)
