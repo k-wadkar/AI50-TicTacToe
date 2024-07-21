@@ -58,6 +58,9 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
+    if not(0 <= action[0] <= 2) or not(0 <= action[1] <= 2):
+        raise NameError("Invalid action on board")
+    
     newBoard = deepcopy(board)
 
     if newBoard[action[0]][action[1]] == EMPTY:
