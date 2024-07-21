@@ -106,6 +106,7 @@ def winner(board):
     
     return None
 
+
 def terminal(board):
     """
     Returns True if game is over, False otherwise.
@@ -126,8 +127,12 @@ def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
-    raise NotImplementedError
-
+    if winner(board) == "X":
+        return 1
+    elif winner(board) == "O":
+        return -1
+    else:
+        return 0
 
 def minimax(board):
     """
