@@ -142,47 +142,42 @@ def minimax(board):
     """
 
     if terminal(board):
-        return None
+        return None    
+    elif player(board) == "X":
+        return maxVal(board, -2, 2)[0]
     else:
-        if player(board) == "X":
-            return max(board)[0]
-        else:
-            return min(board)[0]
+        return minVal(board, -2, 2)[0]
     
 
-def max(board):
+def maxVal(board, maximum, minimum):
     if terminal(board):
-        return None
+        return [None, utility(board)]
     
-    valToMax = -1
+    valToMax = -2
 
     for possibleAction in actions(board):
-        if terminal(result(board, possibleAction)):
-            if utility(result(board, possibleAction)) >= valToMax:
-                valToMax = utility(result(board, possibleAction))
-                optimalAction = possibleAction
-        else:
-            if min(result(board, possibleAction))[1] >= valToMax:
-                valToMax = min(result(board, possibleAction))[1]
-                optimalAction = possibleAction
-
+        localMin = minVal(result(board, possibleAction), maximum, minimum)[1]
+        maximum = max(maximum, localMin)
+        if localMin > valToMax:
+            valToMax = localMin
+            optimalAction = possibleAction
+        if maximum >= minimum:
+            break
     return (optimalAction, valToMax)
 
 
-def min(board):
+def minVal(board, maximum, minimum):
     if terminal(board):
-        return None
+        return [None, utility(board)]
     
-    valToMin = 1
+    valToMin = 2
 
     for possibleAction in actions(board):
-        if terminal(result(board, possibleAction)):
-            if utility(result(board, possibleAction)) <= valToMin:
-                valToMin = utility(result(board, possibleAction))
-                optimalAction = possibleAction
-        else:
-            if max(result(board, possibleAction))[1] <= valToMin:
-                valToMin = max(result(board, possibleAction))[1]
-                optimalAction = possibleAction
-
+        localMax = maxVal(result(board, possibleAction), maximum, minimum)[1]
+        minimum = min(minimum, localMax)
+        if localMax < valToMin:
+            valToMin = localMax
+            optimalAction = possibleAction
+        if maximum >= minimum:
+            break
     return (optimalAction, valToMin)
