@@ -1,6 +1,6 @@
 """
 Tic Tac Toe Player
-Note: This program is ridiculously slow to begin with because I couldn't be bothered to implement alpha-beta pruning. Sorry.
+Note: AB pruning algo implemented as a modified version of AM's code.
 """
 
 import math
